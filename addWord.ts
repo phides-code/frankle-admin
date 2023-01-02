@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
 import { MongoClient, MongoClientOptions, ObjectId } from 'mongodb';
 import * as dotenv from 'dotenv';
 
@@ -27,6 +26,7 @@ const addWord = async (newWord: string) => {
         const foundWord = await db
             .collection(collectionName)
             .findOne({ word: newWordFormatted });
+        console.log('findOne finished');
 
         if (foundWord) {
             throw new Error('Word already in wordlist');
@@ -34,7 +34,6 @@ const addWord = async (newWord: string) => {
             const resultOfInsert = await db
                 .collection(collectionName)
                 .insertOne({
-                    _id: new ObjectId(uuidv4().substring(28, 37)),
                     word: newWordFormatted,
                 });
 

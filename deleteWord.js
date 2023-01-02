@@ -44,62 +44,48 @@ var options = {
     useNewUrlParser: true,
     useUnifiedTopology: true
 };
-var addWord = function (newWord) { return __awaiter(void 0, void 0, void 0, function () {
-    var newWordFormatted, client, dbName, collectionName, db, foundWord, resultOfInsert, err_1;
+var deleteWord = function (wordToDelete) { return __awaiter(void 0, void 0, void 0, function () {
+    var wordToDeleteFormatted, client, dbName, collectionName, db, resultOfDelete, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                newWordFormatted = newWord.toUpperCase();
-                console.log('Adding word to wordlist: ' + newWordFormatted);
+                wordToDeleteFormatted = wordToDelete.toUpperCase();
+                console.log('Deleting word: ' + wordToDeleteFormatted);
                 client = new mongodb_1.MongoClient(MONGO_URI, options);
                 dbName = 'frankle';
                 collectionName = 'wordlist';
                 _a.label = 1;
             case 1:
-                _a.trys.push([1, 7, 8, 9]);
+                _a.trys.push([1, 4, 5, 6]);
                 return [4 /*yield*/, client.connect()];
             case 2:
                 _a.sent();
                 db = client.db(dbName);
                 console.log('Connected to DB:' + dbName);
-                return [4 /*yield*/, db
-                        .collection(collectionName)
-                        .findOne({ word: newWordFormatted })];
+                return [4 /*yield*/, db.collection(collectionName).deleteOne({
+                        word: wordToDeleteFormatted
+                    })];
             case 3:
-                foundWord = _a.sent();
-                console.log('findOne finished');
-                if (!foundWord) return [3 /*break*/, 4];
-                throw new Error('Word already in wordlist');
-            case 4: return [4 /*yield*/, db
-                    .collection(collectionName)
-                    .insertOne({
-                    // _id: new ObjectId(uuidv4().substring(24, 37)),
-                    // _id: new ObjectId(),
-                    word: newWordFormatted
-                })];
-            case 5:
-                resultOfInsert = _a.sent();
-                console.log('got resultOfInsert: ');
-                console.log(resultOfInsert);
-                console.log('Added to wordlist');
-                _a.label = 6;
-            case 6: return [3 /*break*/, 9];
-            case 7:
+                resultOfDelete = _a.sent();
+                console.log('got resultOfDelete: ');
+                console.log(resultOfDelete);
+                return [3 /*break*/, 6];
+            case 4:
                 err_1 = _a.sent();
-                console.log('addWord caught error: ');
+                console.log('deleteWord caught error: ');
                 console.log(err_1.message);
-                return [3 /*break*/, 9];
-            case 8:
+                return [3 /*break*/, 6];
+            case 5:
                 client.close();
                 console.log('Disconnected.');
                 return [7 /*endfinally*/];
-            case 9: return [2 /*return*/];
+            case 6: return [2 /*return*/];
         }
     });
 }); };
-if (process.argv.length !== 3 || process.argv[2].length !== 5) {
-    console.log('Please provide one 5-letter word as an argument.');
+if (process.argv.length !== 3) {
+    console.log('Please provide one word as an argument.');
 }
 else {
-    addWord(process.argv[2]);
+    deleteWord(process.argv[2]);
 }
