@@ -1,11 +1,15 @@
-require('dotenv').config();
-const { v4: uuidv4 } = require('uuid');
-const { MongoClient } = require('mongodb');
-const { MONGO_URI } = process.env;
+import { v4 as uuidv4 } from 'uuid';
+import { MongoClient, MongoClientOptions, ObjectId } from 'mongodb';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
+
+const MONGO_URI = process.env.MONGO_URI as string;
+
 const options = {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-};
+} as MongoClientOptions;
 
 const addWord = async (newWord: string) => {
     const newWordFormatted = newWord.toUpperCase();
@@ -30,7 +34,7 @@ const addWord = async (newWord: string) => {
             const resultOfInsert = await db
                 .collection(collectionName)
                 .insertOne({
-                    _id: uuidv4().substring(28, 37),
+                    _id: new ObjectId(uuidv4().substring(28, 37)),
                     word: newWordFormatted,
                 });
 

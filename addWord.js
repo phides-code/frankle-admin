@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -34,23 +35,25 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var _this = this;
-require('dotenv').config();
-var uuidv4 = require('uuid').v4;
-var MongoClient = require('mongodb').MongoClient;
+exports.__esModule = true;
+var uuid_1 = require("uuid");
+var mongodb_1 = require("mongodb");
+// import dotenv from 'dotenv';
+var dotenv = require("dotenv");
+dotenv.config();
 var MONGO_URI = process.env.MONGO_URI;
 var options = {
     useNewUrlParser: true,
     useUnifiedTopology: true
 };
-var addWord = function (newWord) { return __awaiter(_this, void 0, void 0, function () {
+var addWord = function (newWord) { return __awaiter(void 0, void 0, void 0, function () {
     var newWordFormatted, client, dbName, collectionName, db, foundWord, resultOfInsert, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 newWordFormatted = newWord.toUpperCase();
                 console.log('Adding word to wordlist: ' + newWordFormatted);
-                client = new MongoClient(MONGO_URI, options);
+                client = new mongodb_1.MongoClient(MONGO_URI, options);
                 dbName = 'frankle';
                 collectionName = 'wordlist';
                 _a.label = 1;
@@ -71,7 +74,7 @@ var addWord = function (newWord) { return __awaiter(_this, void 0, void 0, funct
             case 4: return [4 /*yield*/, db
                     .collection(collectionName)
                     .insertOne({
-                    _id: uuidv4().substring(28, 37),
+                    _id: new mongodb_1.ObjectId((0, uuid_1.v4)().substring(28, 37)),
                     word: newWordFormatted
                 })];
             case 5:

@@ -4,5 +4,8 @@
     "mongodb": "^4.13.0",
     "typescript": "^4.9.4",
     "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/uuid": "^9.0.0"
   }
 }
