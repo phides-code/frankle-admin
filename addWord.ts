@@ -1,4 +1,4 @@
-import { MongoClient, MongoClientOptions, ObjectId } from 'mongodb';
+import { MongoClient, MongoClientOptions } from 'mongodb';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
@@ -26,7 +26,6 @@ const addWord = async (newWord: string) => {
         const foundWord = await db
             .collection(collectionName)
             .findOne({ word: newWordFormatted });
-        console.log('findOne finished');
 
         if (foundWord) {
             throw new Error('Word already in wordlist');
@@ -41,7 +40,7 @@ const addWord = async (newWord: string) => {
             console.log(resultOfInsert);
             console.log('Added to wordlist');
         }
-    } catch (err) {
+    } catch (err: any) {
         console.log('addWord caught error: ');
         console.log(err.message);
     } finally {
